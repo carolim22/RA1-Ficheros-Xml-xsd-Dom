@@ -129,7 +129,7 @@ public class XmlManager {
         
     }
 
-    public static void generarNuevoXml(List<Alumno> alumnos, File xmlSalida, File dtdValidor)
+    public static void generarNuevoXml(List<Alumno> alumnos, File xmlSalida, File xsdValidador)
     {
         DocumentBuilderFactory dbf = null;
 
@@ -158,7 +158,7 @@ public class XmlManager {
                     elementoAlumno = doc.createElement("alumno");
                     LOG.trace("Creando elemento alumno");
                     elementoAlumno.setAttribute("exp", al.getExpediente());
-                    elementoAlumno.setAttribute("nom",al.getNombre());
+                    elementoAlumno.setAttribute("nombre",al.getNombre());
                     elementoAlumno.setAttribute("edad", al.getEdad().toString());
                     LOG.trace("Añadidos los atributos al elemento alumno");
                     elementoEdad = doc.createElement("edad");
@@ -171,6 +171,11 @@ public class XmlManager {
                     raiz.appendChild(elementoAlumno);
                     LOG.trace("Añadido elemento alumno al elemento raiz del DOM");
             }
+
+            // añado los atributos necesarios para que mi xml de salida se valide contra un XSD
+            raiz.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			raiz.setAttribute("xsi:noNamespaceSchemaLocation", xsdValidador.getName()); 
+
 
             LOG.trace("Creada estuctura DOM para ser volcada a fichero");
             // Hasta aquí ya tengo montada la estructura DOM definitiva. Solo queda volcarla a fichero xml
@@ -193,8 +198,8 @@ public class XmlManager {
             FileWriter fw = new FileWriter(xmlSalida);
             sr = new StreamResult(fw);
 
-            // nuestro XML de salida queremos que se valide contra el DTD recibido como parámetro (dtdValidator)
-            t.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, dtdValidor.getName());
+            // nuestro XML de salida ya no queremos que se valide contra un DTD por lo tanto quito la sentencia siguiente
+            // t.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, dtdValidor.getName());
 
             t.setOutputProperty(OutputKeys.METHOD, "xml");
             t.setOutputProperty(OutputKeys.VERSION, "1.0");

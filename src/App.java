@@ -53,21 +53,23 @@ public class App {
                                 for (Alumno al:alumnos)
                                     LOG.info(al.toString());
 
-                               /*  LOG.trace("Procediendo a generar el fichero xml de salida");
+
+                                LOG.trace("Procediendo a generar el fichero xml de salida");
                                 File xmlSalida = new File(args[2]);
                                 LOG.trace("Fichero xml de salida: "+ xmlSalida.toString());
 
                                 File xsdSalida = new File(args[3]);
                                 LOG.trace("Fichero dtd contra el que validar el xml de salida: "+ xsdSalida.toString());
                                 XmlManager.generarNuevoXml(alumnos, xmlSalida, xsdSalida);
-                                LOG.trace("Completada generación del fichero xml de salida");*/
+                                LOG.trace("Completada generación del fichero xml de salida");
+                            
                             }
                         }
-                        }
-                        else
-                        {
-                            LOG.error("XSD alumnos inaccesible: "+xsdFile.getAbsolutePath());
-                        }
+                    }
+                    else
+                    {
+                        LOG.error("XSD alumnos inaccesible: "+xsdFile.getAbsolutePath());
+                    }
             }
             else
                 LOG.error("XML alumnos inaccesible: "+xmlFile.getAbsolutePath());
